@@ -1,0 +1,17 @@
+1、SELECT XSB.* , CJB.*
+	FROM  XSB , CJB
+	WHERE XSB.学号 = CJB.学号
+2、Select   学号,姓名,课程名,期中成绩
+From   档案表,成绩表,课程表
+Where   档案表.学号=成绩表.学号   and
+              成绩表.课程号=课程表.课程号
+3、SELECT 姓名, 成绩
+	FROM XSB , CJB
+	WHERE XSB.学号 = CJB.学号 AND 课程号 = '206' AND 成绩 >= 80
+4、SELECT XSB.学号, 姓名, 课程名, 成绩
+	FROM  XSB , KCB , CJB
+	WHERE  XSB.学号 = CJB.学号 
+		AND  KCB.课程号 = CJB.课程号
+		AND  课程名 = '计算机基础'  
+		AND  成绩 >= 80
+

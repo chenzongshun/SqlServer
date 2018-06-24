@@ -1,0 +1,19 @@
+--------------------多表查询---------------------
+--1、查找PXSCJ数据库每个学生的情况以及选修的课程情况。
+
+select xsb.学号,姓名,课程名 from xsb,CJB,KCB where xsb.学号=CJB.学号
+
+--2、查询学号、姓名、课程名、成绩。
+
+select xsb.学号,xsb.姓名,KCB.课程名,CJB.成绩 from xsb,KCB,CJB
+where xsb.学号=CJB.学号 and KCB.课程号=CJB.课程号
+
+--3、查找选修了103号课程且成绩在80分以上的学生姓名及成绩。(包括80分)
+
+select 姓名,成绩 from CJB,xsb
+where CJB.学号=xsb.学号 and 成绩>=80 and 课程号 = '103'
+
+--4、查找选修了“计算机基础”课程且成绩在80分以上的学生学号、姓名、课程名及成绩。 
+
+select xsb.学号,xsb.姓名,KCB.课程名,CJB.成绩 from xsb,KCB,CJB
+where xsb.学号=CJB.学号 and CJB.课程号=KCB.课程号 and 成绩 > 80

@@ -1,0 +1,48 @@
+create database pxscj
+on primary
+( name='pxscj_data',
+  filename='d:\wxw\data\pxscj.mdf',
+  size=3mb,
+  maxsize=100mb,
+  filegrowth=1mb
+)
+log on
+( name='pxscj_log',
+  filename='d:\wxw\data\pxscj.ldf',
+  size=1mb,
+  maxsize=10mb,
+  filegrowth=10%
+)
+
+go
+use pxscj
+go
+create table xsb
+(
+ 	
+	学号 	char(6)	NOT NULL PRIMARY KEY,
+  	姓名 	char(8) 	NOT NULL,
+  	性别 	bit 		NULL DEFAULT 1,
+  	出生时间 	date 		NULL,
+  	专业 	char(12) 	NULL,
+  	总学分 	int 			NULL,	
+  	备注		varchar(500) NULL
+)
+go
+CREATE TABLE KCB
+( 	
+	课程号 	char(3)	NOT NULL PRIMARY KEY,
+  	课程名 	char(16) 	NOT NULL,
+  	开课学期 	tinyint 		NULL DEFAULT 1,
+  	学时 	tinyint 		NULL DEFAULT 0,
+  	学分 	tinyint 	NOT	NULL DEFAULT 0
+
+)
+go
+create table CJB
+(
+学号 char(6) not null,
+课程号 char(3) not null,
+成绩 int null default 0,
+primary key(学号,课程号)
+)

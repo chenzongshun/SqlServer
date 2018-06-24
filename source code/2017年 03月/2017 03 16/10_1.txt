@@ -1,0 +1,65 @@
+
+
+--0、求选修101课程的学生的平均成绩、总成绩。
+
+select 平均成绩 = AVG(成绩),SUM(成绩) as 总成绩 from CJB where 课程号='101'
+
+--1、求选修101课程的学生的最高分和最低分。
+
+select 最高分 = max(成绩),min(成绩) as 最低分 from CJB where 课程号='101'
+
+--2、求学生的总数
+
+select COUNT(*) as 总人数 from xsb
+
+--3、统计备注不为空的学生数。
+
+select COUNT(*) from xsb where 备注 is null
+select COUNT(*) from xsb where 备注 is not null
+select * from xsb where 备注 is not null
+
+--4、统计总学分在50分以上的人数。
+
+select * from xsb where 总学分>50
+
+--5、求选修了课程的学生总数。网络作为选修
+
+select * from xsb
+select COUNT(专业) as 选了网络选修课的 from xsb where 专业='网络'
+
+--6、复制新表xsb1,其结构与xsb一样。
+
+select * into xsb1 from xsb
+select * from xsb1
+
+--7、查询XSB表中计算机专业总学分大于等于42的同学的情况。
+
+select * from xsb where 专业='计算机' and 总学分>42
+
+--8、查询XSB表中姓“王”且单名的学生情况。（刘姓和李姓）
+
+select * from xsb
+select * from xsb where 姓名 like ('王%')						--姓王的
+select * from xsb where 姓名 like ('%王%')						--字符串中只要有王的
+select * from xsb where 姓名 like '王%' and 姓名 like '李%'		--又姓王又姓李的不存在
+select * from xsb where 姓名 like '王%' or 姓名 like '李%'		--注意不是and而是or
+
+--9、查询XSB表中学号倒数第3个数字为1，且倒数第1个数在1～5之间的学生学号、姓名及专业。
+
+select * from xsb where 学号 like '%1_[1-5]'					--通配符‘ % ’代表任意多个或单个字符
+select 学号,姓名,专业 from xsb where 学号 like '%1_[12345]'		--‘ _ ’通配符下划线，代表任意单个字符
+
+--10、查询XSB表中不在1989年出生的学生情况。
+
+select * from xsb where 出生时间 between '1989-01-01' and '1989-12-31'		--between:在…之间
+
+--11、查询XSB表中专业为“计算机”、“通信工程”或“无线电”的学生情况。
+
+select * from xsb where 专业 = '计算机' or 专业 = '通信工程' or 专业 = '无线电'
+select * from xsb where 专业 in ('计算机','通信工程','无线电')				--in:在…之内
+
+--12、查询备注尚不定的学生情况。
+select * from xsb
+select * from xsb where 备注 is null
+select * from xsb where 备注 is not null
+

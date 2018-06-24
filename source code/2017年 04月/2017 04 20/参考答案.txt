@@ -1,0 +1,58 @@
+1、
+USE PXSCJ
+GO
+DECLARE @num int
+SELECT @num=(SELECT COUNT(学号) FROM XSB WHERE  总学分>42)
+IF @num<>0
+	SELECT @num AS '总学分>42的人数'
+
+
+2、
+IF
+( 	
+	SELECT  AVG(成绩) 
+		FROM    CJB, KCB
+		WHERE   CJB.课程号=KCB.课程号
+			AND  KCB.课程名='计算机基础' 
+) <75
+	SELECT  '平均成绩低于75'
+ELSE
+	SELECT '平均成绩高于75'
+
+或：
+IF
+( 	
+	SELECT  AVG(成绩) 
+		FROM   XSB, CJB, KCB
+		WHERE  XSB.学号= CJB.学号 
+			AND  CJB.课程号=KCB.课程号
+			AND  KCB.课程名='计算机基础' 
+) <75
+	SELECT  '平均成绩低于75'
+ELSE
+	SELECT '平均成绩高于75'
+3、
+SELECT 学号, 姓名, 专业, SEX= 
+			CASE 性别
+				WHEN 1 THEN '男'
+				WHEN 0 THEN '女'
+				ELSE  '无'
+			END
+	FROM XSB
+	WHERE 总学分>48
+或：
+SELECT 学号, 姓名, 专业, SEX= 
+	 		CASE 
+				WHEN 性别=1 THEN '男'
+				WHEN 性别=0 THEN '女'
+				ELSE  '无'
+			END
+	FROM XSB
+	WHERE 总学分>48
+
+
+
+
+
+
+

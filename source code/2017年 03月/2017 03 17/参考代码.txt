@@ -1,0 +1,47 @@
+use pxscj
+select * from xsb
+--年龄排序
+select 学号,姓名,year(getdate())-year(出生时间) 年龄,性别=case
+when 性别=1 then '男'
+else '女'
+end 
+from xsb
+where 性别=1 and year(getdate())-year(出生时间)between 26 and 27
+order by year(getdate())-year(出生时间) desc
+--姓名排序
+select 学号,姓名,year(getdate())-year(出生时间) 年龄,性别=case
+when 性别=1 then '男'
+else '女'
+end 
+from xsb
+where 性别=1 and year(getdate())-year(出生时间)between 26 and 27
+order by 姓名 
+--按年龄的降序和学号的升序排序
+select 学号,姓名,year(getdate())-year(出生时间) 年龄,性别=case
+when 性别=1 then '男'
+else '女'
+end 
+from xsb
+where 性别=1 and year(getdate())-year(出生时间)between 26 and 27
+order by year(getdate())-year(出生时间) desc,学号 asc
+
+
+select top 3 with ties 姓名,专业 from xsb
+order by 专业 asc
+--显示101课程的成绩
+select * from cjb
+where 课程号='101'
+--显示101课程的成绩并按从高到低
+select * from cjb
+where 课程号='101'
+order by 成绩 desc
+
+--显示101课程的前三名的成绩
+select top 3 * from cjb
+where 课程号='101'
+order by 成绩 desc
+
+--显示101课程的前三名的成绩,如果与第三名成绩相同，则第四名也显示
+select top 3 with ties * from cjb
+where 课程号='101'
+order by 成绩 desc

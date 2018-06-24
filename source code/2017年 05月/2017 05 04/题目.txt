@@ -1,0 +1,89 @@
+
+
+--1、查询Student表中的所有记录的Sname、Ssex和Class列。
+
+select Sname,Ssex,Class from STUDENT
+  
+--2、查询教师所有的单位即不重复的Depart列。
+
+select distinct(DEPART) from TEACHER
+
+--3、查询Student表的所有记录。
+
+select * from STUDENT
+  
+--4、查询Score表中成绩在60到80之间的所有记录。  
+
+select * from SCORE where DEGREE between 60 and 80
+
+--5、查询Score表中成绩为85，或86及88的记录。in(85,86,88)  
+
+select * from SCORE where DEGREE in (85,86,88)
+
+--6、查询Student表中“95031”班或性别为“女”的同学记录。
+
+select * from STUDENT where CLASS = '95031' or SSEX = '女'
+
+--7、以Class降序查询Student表的所有记录。
+
+select * from STUDENT order by SNO desc		--desc:倒序    asc:顺序
+  
+--8、以Cno升序、Degree降序查询Score表的所有记录。
+  
+select * from SCORE order by SNO asc,DEGREE desc	--多个排序用逗号
+
+--9、查询“95031”班的学生人数。
+
+select COUNT(*) '95031班的人数为' from STUDENT where CLASS = '95031'
+
+--10、查询Score表中的最高分的学生学号和课程号。
+
+select top 1 * from SCORE order by DEGREE desc 
+select * from SCORE where DEGREE=(select MAX(DEGREE) from SCORE)
+
+--11、查询3-105号课程的平均分。
+
+select AVG(DEGREE) '3-105号课程的平均分为' from SCORE where CNO = '3-105'
+
+--12、查询Score表中至少有3名以上学生选修的并以3开头的课程的平均分数。
+
+select * from SCORE
+
+select CNO 课程号,AVG(DEGREE) 平均分,COUNT(cno) 人数 from SCORE 
+where CNO like '3%'
+group by cno
+having count(*)>3				--having count(*)新内容，分组统计
+
+--13、查询最低分大于70，最高分小于90的Sno列。
+
+select SNO from SCORE where DEGREE>70 and DEGREE < 90
+
+--14、查询所有学生的Sname、Cno和Degree列。  
+
+select Sname,Cno,Degree from STUDENT join SCORE on STUDENT.SNO=SCORE.SNO
+
+--15、查询所有学生的Sno、Cname和Degree列。
+
+select STUDENT.Sno,Cname,Degree 
+from STUDENT join SCORE 
+on STUDENT.SNO=SCORE.SNO join COURSE
+on COURSE.CNO=SCORE.CNO
+
+--16、查询所有学生的Sname、Cname和Degree列。
+
+select Sname,Cname,Degree 
+from STUDENT join SCORE 
+on STUDENT.SNO=SCORE.SNO join COURSE
+on COURSE.CNO=SCORE.CNO
+
+--17、查询“95033”班所选课程的平均分。
+
+select AVG(DEGREE) from SCORE where SNO in (
+select sno from STUDENT where CLASS = '95033')
+   
+--18、查询和学号为'109'的同学同年出生的所有学生的Sno、Sname和Sbirthday列。(用year()函数)
+
+select Sno,Sname,Sbirthday 
+from STUDENT 
+where YEAR(SBIRTHDAY)=(select year(SBIRTHDAY) from STUDENT where SNO=109)
+

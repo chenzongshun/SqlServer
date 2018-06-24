@@ -1,0 +1,46 @@
+--1、在xsb中查找年龄在26~27岁的所有男性记录的学号、姓名、年龄、性别。并按年龄进行降序排列。
+
+select 学号,姓名,YEAR(GETDATE()) - YEAR(出生时间) 年龄 ,性别 = case	--是函数就必须要打括号
+when 性别='1' then '男'  
+else '女'  
+end
+from xsb
+where year(getdate()) - YEAR(出生时间) between 26 and 27				--between配对and配合使用
+order by YEAR(GETDATE()) - YEAR(出生时间) desc							--order by 排序    desc 降序	默认asc顺序
+
+--2、查询所有女性记录的学号、姓名、专业、出生日期，并按专业升序，出生日期降序排列记录。
+
+select 姓名,专业,出生时间,专业,性别 = case
+when 性别='0' then '女'
+else '男' end
+from xsb
+where 性别='0'
+order by 出生时间 desc
+
+--3、在学生表中以专业升序排列查询前三个学生的姓名以及与第三个学生同专业的学生的姓名。
+
+select  top 3 with ties * from xsb				--with ties配合top使用，显示出与四个与第三个专业相同的人
+order by 专业
+
+--4、查询期末成绩最高的4条记录的学生学号和期末成绩以及与第四个学生期末成绩相同的哪些记录。
+
+select top 3 with ties * from CJB order by 成绩 desc
+
+--5、统计学生表中记录的总数。
+
+select COUNT(*) 总学生数 from xsb
+
+--6、统计成绩表中所考课程科目的总数。
+
+insert into KCB values (221,'C#',1,100,10)
+select * from KCB
+select COUNT(distinct 课程名) from KCB		--distinct差异
+
+--7、统计成绩表中101号课程期中成绩的总分和期中成绩的平均分。
+
+select avg(成绩) 平均分 from CJB where 课程号='101'
+select sum(成绩) 总分 from CJB where 课程号='101'
+
+--8、查出档案表中年龄最大和最小的学生的出生日期。
+
+select MAX(YEAR(出生时间)) 最小年龄,MIN(YEAR(出生时间)) 最大年龄 from xsb

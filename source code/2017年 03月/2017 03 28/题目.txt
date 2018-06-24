@@ -1,0 +1,33 @@
+--使用compute 子句汇总数据
+
+--1、列出103号课程的明细数据和汇总期中考试的平均分，最高分和最低分。
+
+select * from  CJB
+where 课程号='103'
+compute avg(cjb.成绩),max(cjb.成绩),min(cjb.成绩)
+
+--2、查询《计算机基础》课程期中考试的明细数据和汇总该课程的考试的总分，参考人数和平均分。
+
+select * from KCB join CJB
+on CJB.课程号=KCB.课程号
+where 课程名='计算机基础'
+order by 学号
+compute sum(成绩),count(成绩),avg(成绩)--计算 
+
+--3、按学号分组汇总每个学生的期中成绩的总分，平均分及考试科目数和每个学生考试的明细数据。
+
+select * from  CJB   
+order by 学号--排序，默认顺
+compute sum(成绩),avg(成绩),count(成绩)		--重复一行在表的最后计算全部的字段
+by 学号
+compute sum(成绩),avg(成绩),count(成绩)
+
+--4、查询成绩表中每门课程的明细数据和汇总每门课程期末成绩的总分，
+--参考人数和平均分。以及所有科目期末成绩的总分，参考人数和平均分。
+
+select KCB.课程名,xsb.专业,CJB.成绩,xsb.姓名 from 
+KCB join CJB join  xsb
+on xsb.学号=CJB.学号
+on KCB.课程号=CJB.课程号
+order by CJB.课程号
+compute sum(成绩),count(成绩),avg(成绩)

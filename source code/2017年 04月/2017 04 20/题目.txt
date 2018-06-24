@@ -1,0 +1,43 @@
+--1、用于查询总学分大于42的学生人数。
+ 
+declare @num int
+select @num=(select count(学号) from xsb where  总学分>42)
+if @num<>0			--<>在数据库中叫'不等于'
+select @num as '总学分>42的人数'
+
+
+
+--2、如果“计算机基础”课程的平均成绩高于75分，则显示“平均成绩高于75分”。
+
+declare @scoue int = 60
+if (select avg(成绩) from CJB inner join KCB on CJB.课程号=KCB.课程号 where 课程名='计算机基础')>=@scoue
+	goto a			--跳转到a的语句块
+else
+	goto b
+	
+a:begin				--begin：开始，标志着语句块的开始
+print '平均成绩大于等于'+convert(char(10),@scoue)+'分'
+return		--如果不写这里，如果正好又执行了这一段语句块，那么将会把下面的b语句块也执行掉，因为return只能结束当前语句块
+end			--end：结束，标志着语句块的结束
+
+b:begin 
+print '平均成绩低于'+convert(char(10),@scoue)+'分'
+return
+end			--end如果不写的话就会出错，begin一定要配合end来使用
+go
+
+--3、使用CASE语句，根据性别值输出“男”或“女”。
+
+select 姓名, 性别 =   --在这里为别名
+case
+ when  性别 =1 then '男' 
+ when  性别 =0 then '女' 
+end
+from xsb
+
+select 姓名, sex =			--sex在这里为别名
+case 性别					--取性别的值
+ when  1 then '男' 
+ when  0 then '女' 
+end
+from xsb

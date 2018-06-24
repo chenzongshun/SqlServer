@@ -1,0 +1,62 @@
+
+--1、创建一个加密视图，可以检索各门课程的期中考试参考人数，平均分，最高分，最低分。
+
+create view 成绩加密
+with encryption as				--加了这个说明这个视图是加密了的
+select COUNT(成绩) 人数,AVG(成绩) 平均分,MAX(成绩) 最高分,MIN(成绩) 最低分 from CJB
+
+create view  成绩没有加密1 as
+select COUNT(成绩) 人数,AVG(成绩) 平均分,MAX(成绩) 最高分,MIN(成绩) 最低分 from CJB
+
+exec sp_helptext 成绩加密		--sp_helptext调用存储过程，来查看视图的代码
+exec sp_helptext 成绩没有加密	--这里用来查看视图代码的加密性
+
+--2、创建一个视图，可以检索学号、课程号、期末成绩，并且通过该视图修改、插入数据时期末成绩必须成绩>70 and 成绩<80
+
+drop view 成绩修改视图 
+
+create view 成绩修改视图 as
+select * from CJB
+where 成绩>70 and 成绩<80
+with check option					--check:检查  option:选项	加了这句的意思是说只能够按照上面的条件去修改数据库
+
+--3、创建视图cs_xs,可以检索计算机专业学生的基本信息；向CS_XS视图中插入以下记录：
+
+create view cs_xs as
+select * from xsb where 专业='计算机'
+insert into cs_xs
+values('081115', '刘明仪', 1,'1998-3-2', '计算机',50,null)
+
+--4、将CS_XS视图中所有学生的总学分增加8。
+
+update cs_xs set 总学分=总学分+ 8
+
+--5、将CS_KC视图中学号为081101的学生的101号课程成绩改为90。
+
+update cs_kc set 成绩=90
+where 学号='081101'  and 课程号='101'
+
+--6、删除CS_XS中女同学的记录。
+
+delete from cs_xs where 性别 = 0		--删除中记得有个“from”
+ 
+--7创建一个“课程成绩视图”。要求通过该视图插入一门 新课程：
+--课程号为‘306’、课程名为‘高等数学’；参加考学生的学号为‘081301’ 、php的期中成绩为89分。
+
+
+create view 课程成绩视图(学号,课程号1,成绩,课程号2,课程名)as  
+select 学号,a.课程号,成绩,b.课程号,课程名
+from cjb a join kcb b
+on a.课程号=b.课程号
+ 
+Insert into 课程成绩视图(课程号2,课程名)
+Values ('108','高等数学')	--涉及多表只能够用这种方式
+Insert into 课程成绩视图(学号,课程号1,成绩)
+Values('020101','108',89 )
+
+Insert into 课程成绩视图
+Values('020101','108',89,'108','生物' ) 
+--错误视图或函数 '课程成绩视图' 不可更新，因为修改会影响多个基表。
+
+
+ 

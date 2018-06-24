@@ -1,0 +1,39 @@
+--IN子查询：
+
+--1、查找选修了课程号为103的课程的学生情况。
+
+select * from xsb,CJB where xsb.学号=CJB.学号 and 课程号='103'
+
+select * from xsb 
+where 学号 in			--因为xsb和cjb中就只有学号字段都共有的
+(select 学号 from CJB where 课程号='103')		--获得选修了103课程的学号，记得只要学号字段
+
+--2、查找未选修《计算机基础》的学生情况。
+
+select * from xsb
+where 学号 not in
+( 
+	select 学号 from CJB 
+	where 课程号 in
+	(select 课程号 from KCB where 课程名='计算机基础')
+)
+
+--比较子查询：
+
+--3、查找选修了《计算机基础》的学生学号。
+
+select * from xsb
+where 学号 in			--这里不能写等于，因为里面还有in语句，返回值类型不能有多个
+( 
+	select 学号 from CJB 
+	where 课程号 =		--因为返回值只有一个，所以能够写=而不写in语句
+	(select 课程号 from KCB where 课程名='计算机基础')
+)
+
+--4、查找比所有计算机系的学生年龄都大的学生。
+
+update xsb set 出生时间 = '1980-1-2' where 姓名='胡琴'
+select * from xsb
+where 出生时间<all(		--	all:所有的		some:一些的		any:任何一个
+select 出生时间 from xsb where 专业='计算机'
+)

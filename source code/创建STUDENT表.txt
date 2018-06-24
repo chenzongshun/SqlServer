@@ -1,0 +1,119 @@
+create database pxscj_2
+on primary
+( name='pxscj_2_data',
+  filename='E:\SQLserver\2017 05 05\pxscj_2.mdf',
+  size=3mb,
+  maxsize=100mb,
+  filegrowth=1mb
+)
+log on
+( name='pxscj_2_log',
+  filename='E:\SQLserver\2017 05 05\pxscj_2.ldf',
+  size=1mb,
+  maxsize=10mb,
+  filegrowth=10%
+)
+
+go
+use pxscj_2
+go
+
+use pxscj_2
+go
+create table student				--创建一个学生表
+(
+sno varchar(3)not null,		--学生学号
+sname varchar(4)not null,	--学生名字
+ssex varchar(2) not null,	--学生性别
+sbirthday datetime ,		--出生年月
+class varchar(5)			--所在班级
+) 
+go  
+create table course					--创建一个课程表
+(
+cno varchar(5)not null,			--课程号
+cname varchar(10) not null,		--课程名字
+tno varchar(10)not null			--可能是课程的教室
+) 
+go  
+create table score   				--创建一个成绩表
+(
+sno varchar(3)not null,			--学生学号
+cno varchar(5)not null,			--课程号
+degree numeric(10, 1)not null	--成绩
+)
+  
+go  
+create table teacher  				--创建一个教师表
+(
+tno varchar(3)not null,			--教师号
+tname varchar(4) not null,		--教师名字
+tsex varchar(2) not null,		--教师性别
+tbirthday datetime not null,	--教师出生时间
+prof varchar(6),				--教师职位
+depart varchar(10)not null		--所属系部
+) 
+go
+insert into student(sno,sname,ssex,sbirthday,class) 
+values (108 ,'曾华' ,'男' ,'1977-09-01',95033);  
+insert into student(sno,sname,ssex,sbirthday,class) 
+values (105 ,'匡明' ,'男' ,'1975-10-02',95031);  
+insert into student(sno,sname,ssex,sbirthday,class) 
+values (107 ,'王丽' ,'女' ,'1976-01-23',95033);  
+insert into student(sno,sname,ssex,sbirthday,class) 
+values  (101 ,'李军' ,'男' ,'1976-02-20',95033);  
+insert into student(sno,sname,ssex,sbirthday,class) 
+values (109 ,'王芳' ,'女' ,'1975-02-10',95031);  
+insert  into student(sno,sname,ssex,sbirthday,class)
+values (103 ,'陆君' ,'男' ,'1974-06-03',95031); 
+go  
+insert into course(cno,cname,tno)
+values ('3-105','计算机导论',825) 
+insert into course(cno,cname,tno)
+values ('3-245','操作系统',804); 
+insert into course (cno,cname,tno)
+values ('6-166','数据电路',856); 
+insert into course(cno,cname,tno)
+values ('9-888','高等数学',831); 
+go  
+insert into score(sno,cno,degree)
+values (103,'3-245',86);  
+insert into score(sno,cno,degree)
+values (105,'3-245',75); 
+insert into score(sno,cno,degree)
+values (109,'3-245',68); 
+insert into score(sno,cno,degree)
+values (103,'3-105',92); 
+insert into score(sno,cno,degree)
+values (105,'3-105',88); 
+insert into score(sno,cno,degree)
+values (109,'3-105',76); 
+insert into score(sno,cno,degree)
+values (101,'3-105',64); 
+insert into score(sno,cno,degree)
+values (107,'3-105',91); 
+insert  into score (sno,cno,degree)
+values (108,'3-105',78); 
+insert into score(sno,cno,degree)
+values (101,'6-166',85); 
+insert into score(sno,cno,degree)
+values (107,'6-106',79); 
+insert into score(sno,cno,degree)
+values (108,'6-166',81); 
+go  
+insert into teacher(tno,tname,tsex,tbirthday,prof,depart)  
+values (804,'李诚','男','1958-12-02','副教授','计算机系'); 
+insert into teacher(tno,tname,tsex,tbirthday,prof,depart)  
+values (856,'张旭','男','1969-03-12','讲师','电子工程系'); 
+insert  into teacher(tno,tname,tsex,tbirthday,prof,depart) 
+values (825,'王萍','女','1972-05-05','助教','计算机系');  
+insert into teacher(tno,tname,tsex,tbirthday,prof,depart)
+values (831,'刘冰','女','1977-08-14','助教','电子工程系');  
+go
+
+select * from COURSE		--课程表
+select * from SCORE			--成绩表
+select * from STUDENT		--学生表
+select * from TEACHER		--教师表
+
+

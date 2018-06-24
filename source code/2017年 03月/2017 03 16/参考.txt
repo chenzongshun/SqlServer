@@ -1,0 +1,36 @@
+use pxscj
+select * from xsb
+select * from cjb
+select * from KCB
+
+select AVG(成绩) as '101的平均成绩',sum(成绩) as '101的总分' from cjb where 课程号='101'
+select (成绩) from cjb where 课程号='101'
+
+select max(成绩) as '101的最高分',min(成绩) as '101的最低分' from cjb where 课程号='101'
+
+select COUNT(*)  from xsb
+select COUNT(备注)  from xsb
+select * from xsb where 备注 is  not null
+select COUNT(*)  from xsb where 总学分>50
+update xsb set 总学分=0 where 学号='081102'
+select COUNT(*)  from xsb where 总学分>0
+
+select * into xsb1 from xsb
+select * from xsb1
+select 姓名,出生时间,总学分 into xsb2 from xsb
+select * from xsb2
+select * from xsb where 专业='计算机' and 总学分>=42
+select * from xsb where 姓名 like '王%'
+select * from xsb where 姓名 like '王_'
+select * from xsb where 姓名 like '王%' or 姓名 like '李%'
+
+update xsb set 姓名='王林林' where 姓名='王林' and 专业='网络'
+select 学号,姓名,专业 from xsb where 学号 like '%1_[12345]'
+select * from xsb where 出生时间 not between '1989-01-01' and '1989-12-31'
+select * from xsb where 专业 in ('计算机','通信工程','无线电')
+select * from xsb where 专业='计算机'or 专业='通信工程' or 专业='无线电'
+select * from xsb where 总学分 is null
+
+select * from xsb where 备注 is null
+
+

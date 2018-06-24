@@ -1,0 +1,38 @@
+--1、创建CS_KC视图，包括计算机专业各学生的学号、
+--其选修的课程号及成绩。要保证对该视图的修改都符合“专业为计算机”这一条件。
+
+create view CS_KC
+as						--as:作为	这个给忘了
+select a.学号,成绩,b.课程号,c.课程名,专业 from xsb a inner 
+join CJB b on a.学号=b.学号
+join KCB c on b.课程号=c.课程号
+where 专业='计算机'
+
+--2、创建计算机专业学生的平均成绩视图CS_KC_AVG，
+--包括学号（在视图中列名为num）和平均成绩（在视图中列名为score_avg）。
+
+create view CS_KC_AVG(num,score_avg,课程号,课程名,专业)		--如果要取名字的话记得要和下面查询的列数配对上
+as						--as:作为	这个给忘了
+select a.学号,成绩,b.课程号,c.课程名,专业 from xsb a inner 
+join CJB b on a.学号=b.学号
+join KCB c on b.课程号=c.课程号
+where 专业='计算机'
+
+--3、使用视图CS_KC查找计算机专业的学生学号和选修的课程号。
+
+select * from CS_KC			--虽然提示对象名无效,但是不知为何能够出来预想的结果
+
+--4、查找平均成绩在80分以上的学生的学号和平均成绩。
+
+select * from CS_KC where 成绩>80
+
+
+--自己的附加题目	加密
+
+create view CS_KC1
+with encryption				--加密
+as						--as:作为	这个给忘了
+select a.学号,成绩,b.课程号,c.课程名,专业 from xsb a inner 
+join CJB b on a.学号=b.学号
+join KCB c on b.课程号=c.课程号
+where 专业='计算机'

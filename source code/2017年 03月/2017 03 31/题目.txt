@@ -1,0 +1,49 @@
+--子查询:
+
+--1、查询102号课程期中成绩是80分以上的学生姓名。
+
+select * from xsb join CJB on xsb.学号=CJB.学号 where CJB.成绩>80	 --显示7条
+
+select distinct xsb.学号,姓名 from xsb join CJB on xsb.学号=CJB.学号 where CJB.成绩>80 
+
+select * from xsb			--好像会自带distinct消除学号的差异性	显示6条
+where 学号 in (
+select 学号 from CJB where 成绩 >80
+)
+
+--2、列出网络专业的所有学生的成绩情况。
+
+select xsb.*,CJB.成绩 from xsb join CJB on xsb.学号=CJB.学号 where 专业='网络'
+
+select * from xsb
+where 学号 in (
+select 学号 from CJB where 专业='网络'
+)
+
+select * from CJB
+where 学号 in (
+select 学号 from xsb where 专业='网络'
+)
+
+--3、从XSB表中查找所有女学生的姓名、学号及其与081101号学生的年龄差距。
+
+select 姓名,学号,YEAR(出生时间)-YEAR
+(( 							--注意year函数和子查询的函数括号都要写，这里 不需要写in
+   select 出生时间 from xsb where 学号='081101'
+)) as 年龄差异 
+from xsb
+where 性别 = '0'
+
+--4、查询课程号为103且期中成绩高于课程号为102的所有期中成绩的学生的学号和期中成绩。
+
+select * from CJB where 课程号='103' and 成绩 > all(
+select 成绩 from CJB where 课程号='102'
+)
+
+--5、从成绩表中列出102号课程的期中成绩
+--高于此课程期中成绩平均值
+--的记录的学号、姓名、课程号和期中成绩。
+
+select * from CJB where 课程号='102' and 成绩 > all(
+(select AVG(成绩) from CJB where 课程号='102')
+)

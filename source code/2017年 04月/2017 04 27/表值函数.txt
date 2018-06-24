@@ -1,0 +1,32 @@
+--1、创建用户定义函数，实现计算全体学生某门功课平均成绩的功能。
+ 
+create function 
+某门功课平均成绩 (@kcm varchar(10))
+returns int
+as
+begin
+	declare @pjz int
+	select @pjz = AVG(成绩) from xsb join CJB 
+	on xsb.学号=CJB.学号 join KCB 
+	on KCB.课程号=CJB.课程号
+	where 课程名=@kcm
+	return @pjz
+end
+
+print dbo.某门功课平均成绩('计算机基础') 
+
+--2、创建内嵌函数fn_view()，可查询指定专业的学生的学号和姓名。
+
+create function fn_view(@zy varchar(10)) returns table as
+return select * from xsb where 专业=@zy
+
+select * from dbo.fn_view('网络')		--注意前面不需要打印print
+
+--3、先创建视图，查询学生的各科成绩（学号、姓名、课程名、成绩）；
+create view 各科成绩 as 
+select xsb.学号,姓名,课程名,成绩 from xsb join CJB on xsb.学号=CJB.学号 join KCB on CJB.课程号=KCB.课程号
+--并利用视图再创建内嵌函数st_score()，调用st_score()查询学号为081101的学生的各科成绩。
+create function st_score(@xh int) returns table as
+return select * from 各科成绩 where 学号=@xh
+
+select * from dbo.st_score('081101')
